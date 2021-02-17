@@ -1,14 +1,58 @@
 body {
-    background-color: #433844;
+    background-color: #df8025;
     background-size: 100%;
 }
 
 .header {
-    width: 100%;
+    width: auto;
     height: 60px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #433844;
+}
+
+.header-extlink {
+    display: flex;
+    align-items: center;
+    font-size: 120%;
+    margin-right: 40px;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.2s;
+    height: auto;
+    width: auto;
+}
+
+.header-extlink:hover {
+    border-bottom: 1px solid black;
+}
+
+.header-extlink a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.header-extlink a:hover {
+    color: black;
 }
 
 .title {
-    color: black;
+    width:auto;
+    height:auto;
+    color: white;
+    font-size: 300%;
+    padding: 10px;
+}
+
+.main-wrapper {
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.about-me {
+    width: 40%;
 }
