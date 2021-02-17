@@ -20,8 +20,8 @@ h1 {
     padding: 40px;
     justify-content: space-between;
     vertical-align: bottom;
-    background-color: #ec4d15;
-    border-radius: 10px;
+    background-color: rgba(236, 77, 21, 0.6);
+    border-radius: 5px;
 }
 
 .header {
