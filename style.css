@@ -8,7 +8,7 @@ h1 {
 }
 
 .container{
-
+    padding: 10px;
 }
 
 .head-container {
@@ -68,12 +68,4 @@ h1 {
 
 .header-extlink a:hover {
     color: #8e1d21;
-}
-
-.navbar {
-
-}
-
-.navlink {
-
 }
