@@ -57,17 +57,17 @@ h1 {
 }
 
 .header-extlink a {
-    color: #df8025;
+    color: black;
     text-decoration: none;
     transition: color 0.5s;
 }
 
-.header-extlink:hover{
-    border-bottom: 1px solid black;
+.header-extlink:hover {
+    border-bottom: 1px solid #8e1d21;
 }
 
 .header-extlink a:hover {
-    color: black;
+    color: #8e1d21;
 }
 
 .navbar {
