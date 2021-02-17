@@ -1,8 +1,79 @@
 body {
-  background-color: white;
+  background-color: #433844;
 }
 
 h1 {
   color: black;
   margin-left: 20px;
+}
+
+.container{
+
+}
+
+.head-container {
+    display: flex;
+    height: auto;
+    width: auto;
+    padding: 40px;
+    justify-content: space-between;
+    vertical-align: bottom;
+    background-color: #ec4d15;
+    border-radius: 10px;
+}
+
+.header {
+    font-size: 200%;
+    height: auto;
+    width: auto;
+
+}
+
+.header a{
+    color: black;
+    text-decoration: none;
+    transition: color 0.25s;
+}
+
+.header a:hover {
+    color: #8e1d21;
+}
+
+.right-side {
+    display: flex;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: auto;
+    width: auto;
+}
+
+.header-extlink {
+    font-size: 120%;
+    margin-right: 20px;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.5s;
+    height: auto;
+    width: auto;
+}
+
+.header-extlink a {
+    color: #df8025;
+    text-decoration: none;
+    transition: color 0.5s;
+}
+
+.header-extlink:hover{
+    border-bottom: 1px solid black;
+}
+
+.header-extlink a:hover {
+    color: black;
+}
+
+.navbar {
+
+}
+
+.navlink {
+
 }
