@@ -52,6 +52,7 @@ h1 {
 .header-extlink {
     font-size: 120%;
     margin-right: 20px;
+    text-align: center;
     border-bottom: 2px solid transparent;
     transition: border-bottom 0.5s;
     height: auto;
