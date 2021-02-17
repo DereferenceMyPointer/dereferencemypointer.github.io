@@ -1,5 +1,7 @@
 body {
-  background-color: #433844;
+    background-color: #433844;
+    background-image: url("Descent.png");
+    background-size: 100%;
 }
 
 h1 {
