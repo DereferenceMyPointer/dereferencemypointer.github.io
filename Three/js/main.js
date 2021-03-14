@@ -55,6 +55,7 @@ class MainGame{
         const material = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
         const cube = new THREE.Mesh( geometry, material );
         cube.position.set(0, 5, 0);
+        cube.castShadow = true;
         this.scene.add(cube);
 
         const plane = new THREE.Mesh(
