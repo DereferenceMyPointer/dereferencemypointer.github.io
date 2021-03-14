@@ -93,7 +93,7 @@ class MainGame{
 
     LoadAnimatedModel(){
         const loader = new FBXLoader();
-        loader.setPath('/Models/');
+        loader.setPath('./Models/');
         loader.load('Guy.fbx', (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
@@ -101,7 +101,7 @@ class MainGame{
             });
 
             const anim = new FBXLoader();
-            anim.setPath('/Animations/');
+            anim.setPath('./Animations/');
             anim.load('Dance.fbx', (anim) => {
                 this.mixer = new THREE.AnimationMixer(fbx);
                 const dance = this.mixer.clipAction(anim.animations[0]);
