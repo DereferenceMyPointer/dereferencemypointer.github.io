@@ -1,6 +1,8 @@
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.module.js';
 
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/GLTFLoader.js';
+import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js'
 
 class MainGame{
     constructor(){
@@ -82,6 +84,26 @@ class MainGame{
         requestAnimationFrame(() => {
             this.three.render(this.scene, this.camera);
             this.RAF();
+        })
+    }
+
+    LoadAnimatedModel(){
+        const loader = new FBXLoader();
+        loader.setPath('/Models/');
+        loader.load('Guy.fbx', (fbx) => {
+            fbx.scale.setScalar(0.1);
+            fbx.traverse(c => {
+                c.castShadow = true;
+            });
+
+            const anim = new FBXLoader();
+            anim.setPath('/Animations/');
+            anim.load('Dance.fbx', (anim) => {
+                this.mixer = new THREE.AnimationMixer(fbx);
+                const dance = this.mixer.clipAction(anim.animations[0]);
+                dance.play();
+            });
+            this.scene.add(fbx);
         })
     }
 
