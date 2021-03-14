@@ -11,13 +11,13 @@ class MainGame{
         this.three = new THREE.WebGLRenderer({
             antialias: true,
         });
-        this._three.outputEncoding = THREE.sRGBEncoding;
-        this._three.gammaFactor = 2.2;
-        this._three.shadowMap.enabled = true;
-        this._three.shadowMap.type = THREE.PCFSoftShadowMap;
-        this._three.setPixelRatio(window.devicePixelRatio);
-        this._three.setSize(window.innerWidth, window.innerHeight);
-        this._three.domElement.id = 'three';
+        this.three.outputEncoding = THREE.sRGBEncoding;
+        this.three.gammaFactor = 2.2;
+        this.three.shadowMap.enabled = true;
+        this.three.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.three.setPixelRatio(window.devicePixelRatio);
+        this.three.setSize(window.innerWidth, window.innerHeight);
+        this.three.domElement.id = 'three';
 
         document.body.appendChild(this.three.domElement);
 
