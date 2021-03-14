@@ -50,23 +50,20 @@ class MainGame{
         const controls = new OrbitControls(this.camera, this.three.domElement);
         controls.target.set(0, 0, 0);
         controls.update();
-        /*
-        const loader = new THREE.CubeTextureLoader();
-        const texture = loader.load([
-            '/resources/PosX.jpeg',
-            '/resources/NegX.jpeg',
-            '/resources/PosY.jpeg',
-            '/resources/NegY.jpeg',
-            '/resources/Posz.jpeg',
-            '/resources/NegZ.jpeg',
-        ])
-
-        this.scene.background = texture;
-        */
+        
         const geometry = new THREE.BoxGeometry(5, 5, 5);
         const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
         const cube = new THREE.Mesh( geometry, material );
         this.scene.add( cube );
+
+        const plane = new THREE.Mesh(
+            new THREE.PlaneGeometry(100, 100, 1, 1),
+            new THREE.MeshStandardMaterial( {color: 0xFFFFFF} )
+        );
+        plane.castShadow = false;
+        plane.receiveShadow = true;
+        plane.rotation.x = -Math.PI / 2;
+        this.scene.add(plane);
 
         this.RAF();
 
