@@ -70,6 +70,8 @@ class MainGame{
         plane.rotation.x = -Math.PI / 2;
         this.scene.add(plane);
 
+        this.LoadAnimatedModel();
+
         this.RAF();
 
     }
