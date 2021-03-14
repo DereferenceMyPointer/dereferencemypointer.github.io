@@ -63,9 +63,10 @@ class MainGame{
 
         this.scene.background = texture;
         */
-        const geometry = new THREE.BoxGeometry();
+        const geometry = new THREE.BoxGeometry(5, 5, 5);
         const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
         const cube = new THREE.Mesh( geometry, material );
+        box.position.set(0, 1, 0);
         this.scene.add( cube );
 
         this.RAF();
