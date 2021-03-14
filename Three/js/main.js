@@ -56,6 +56,7 @@ class MainGame{
         const cube = new THREE.Mesh( geometry, material );
         cube.position.set(0, 5, 0);
         cube.castShadow = true;
+        cube.receiveShadow = true;
         this.scene.add(cube);
 
         const plane = new THREE.Mesh(
