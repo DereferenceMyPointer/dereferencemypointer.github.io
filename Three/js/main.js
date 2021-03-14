@@ -71,6 +71,8 @@ class MainGame{
         plane.rotation.x = -Math.PI / 2;
         this.scene.add(plane);
 
+        this.previousRAF = null;
+
         this.LoadAnimatedModel();
 
         this.RAF();
@@ -84,10 +86,17 @@ class MainGame{
     }
 
     RAF(){
-        requestAnimationFrame(() => {
-            this.three.render(this.scene, this.camera);
+        requestAnimationFrame((t) => {
+            if (this.previousRAF === null) {
+              this.previousRAF = t;
+            }
+      
             this.RAF();
-        })
+      
+            this.THREE.render(this.scene, this.camera);
+            this.Step(t - this.previousRAF);
+            this.previousRAF = t;
+          });
     }
 
     LoadAnimatedModel(){
