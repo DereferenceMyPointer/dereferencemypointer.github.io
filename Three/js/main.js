@@ -44,7 +44,7 @@ class MainGame{
         light.shadow.camera.bottom = -200;
         this.scene.add(light);
 
-        light = new this.THREE.AmbientLight(0x404040);
+        light = new THREE.AmbientLight(0x404040);
         this.scene.add(light);
 
         const controls = new OrbitControls(this.camera, this.three.domElement);
