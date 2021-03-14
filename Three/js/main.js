@@ -90,5 +90,5 @@ class MainGame{
 let APP = null;
 
 window.addEventListener('DOMContentLoaded', () => {
-  APP = new BasicWorldDemo();
+  APP = new MainGame();
 });
