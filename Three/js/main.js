@@ -93,7 +93,7 @@ class MainGame{
       
             this.RAF();
       
-            this.THREE.render(this.scene, this.camera);
+            this.three.render(this.scene, this.camera);
             this.Step(t - this.previousRAF);
             this.previousRAF = t;
           });
