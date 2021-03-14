@@ -28,7 +28,7 @@ class MainGame{
         this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
         this.camera.position.set(75, 20, 0);
 
-        this.scene = new THREE.scene;
+        this.scene = new THREE.Scene();
 
         let light = new THREE.DirectionalLight(0xFFFFFF);
         light.position.set(100, 100, 100);
