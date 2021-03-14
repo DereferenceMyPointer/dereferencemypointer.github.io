@@ -53,15 +53,14 @@ class MainGame{
         controls.target.set(0, 0, 0);
         controls.update();
         
-        /*
         const geometry = new THREE.BoxGeometry(5, 5, 5);
         const material = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
         const cube = new THREE.Mesh( geometry, material );
-        cube.position.set(0, 5, 0);
+        cube.position.set(0, 5, 25);
         cube.castShadow = true;
         cube.receiveShadow = true;
         this.scene.add(cube);
-        */
+        
 
         const plane = new THREE.Mesh(
             new THREE.PlaneGeometry(100, 100, 1, 1),
