@@ -19,8 +19,20 @@
     <link rel="stylesheet" href="Style/gammastyle.css" />
 </head>
 <body id="body">
-    <canvas></canvas>
-    <script src="Script/gamma.js"></script>
+    <div>
+        <p>X Rotation</p>
+        <input type="range" min="1" max="100" value="50" class="slider" id="X">
+        <p>Y Rotation</p>
+        <input type="range" min="1" max="100" value="50" class="slider" id="Y">
+        <p>Doesn't do anything yet</p>
+        <input type="range" min="1" max="100" value="50" class="slider" id="Z">
+        <p>FOV</p>
+        <input type="range" min="1" max="100" value="50" class="slider" id="FOV">
+        <input type="button" value="Draw!" onclick="drawRect(50, 50, 50, document.getElementById('X').value, document.getElementById('Y').value, document.getElementById('FOV').value)">
+    </div>
+    <canvas>
+    </canvas>
+    <script src="Script/gamma2.js"></script>
 </body>
 
 </html>
