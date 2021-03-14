@@ -72,7 +72,8 @@ class MainGame{
         this.scene.add(plane);
 
         this.previousRAF = null;
-
+        this.mixers = [];
+            
         this.LoadAnimatedModel();
 
         this.RAF();
@@ -99,6 +100,17 @@ class MainGame{
           });
     }
 
+    Step(timeElapsed) {
+        const timeElapsedS = timeElapsed * 0.001;
+        if (this._mixers) {
+            this._mixers.map(m => m.update(timeElapsedS));
+        }
+    
+        if (this._controls) {
+            this._controls.Update(timeElapsedS);
+        }
+    }
+
     LoadAnimatedModel(){
         const loader = new FBXLoader();
         loader.setPath('./Models/');
@@ -111,8 +123,9 @@ class MainGame{
             const anim = new FBXLoader();
             anim.setPath('./Animations/');
             anim.load('Dance.fbx', (anim) => {
-                this.mixer = new THREE.AnimationMixer(fbx);
-                const dance = this.mixer.clipAction(anim.animations[0]);
+                const m = new THREE.AnimationMixer(fbx);
+                this.mixers.push(m);
+                const dance = m.clipAction(anim.animations[0]);
                 dance.play();
             });
             this.scene.add(fbx);
