@@ -95,7 +95,7 @@ class MainGame{
         const loader = new FBXLoader();
         loader.setPath('./Models/');
         loader.load('Guy.fbx', (fbx) => {
-            fbx.scale.setScalar();
+            fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
                 c.castShadow = true;
             });
