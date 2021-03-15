@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<style>
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    canvas {
+        height: auto;
+        width: auto;
+        background-color: lightgrey;
+    }
+
+    .entry-container {
+        z-index: 200;
+        height: auto;
+        width: auto;
+        position: relative;
+        background-color: grey;
+    }
+
+    .entry-container p {
+        padding: 20px;
+    }
+
+    .slider {
+        -moz-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 25px;
+        background: #d3d3d3;
+        outline: none;
+    }
+    .slider::-webkit-slider-thumb {
+        -moz-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .entry-bar {
+        display: flex;
+        padding: 5px;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+</style>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Plant Generator</title>
+    </head>
+
+    <body>
+        <canvas id="canvas">
+        </canvas>
+        <div class="entry-container">
+            <div class="entry-bar">
+                <p>Branch Length</p>
+                <input type="range" min="1" max="200" value="30" class="slider" id="length"/>
+            </div>
+            <div class="entry-bar">
+                <p>Branch Color</p>
+                <input type="color" id="color" value='Color.green'/>
+            </div>
+            <div class="entry-bar">
+                <p>Branch Thickness</p>
+                <input type="range" id="thickness" value="3" class="slider" min="0" max="10" />
+            </div>
+            <div class="entry-bar">
+                <p>Angle</p>
+                <input type="range" min="0" max="180" value="22" class="slider" id="angle" value="15"/>
+            </div>
+            <div class="entry-bar">
+                <p>Iterations</p>
+                <input type="range" min="1" max="10" value="3" class="slider" id="iterations"/>
+            </div>
+            <div class="entry-bar">
+                <p>Axiom</p>
+                <input type="text" id="axiom" value="F"/>
+            </div>
+            <div class="entry-bar">
+                <p>Rule</p>
+                <input type="text" id="rule" value="F,FFc[cFCFCF]C[CFcFcF]"/>
+            </div>
+            <div class="entry-bar">
+                <input type="button" value="Generate" id="generate" />
+            </div>
+            <p>
+                This is an L-system based procedural plant generator! The \"axiom\" is the initial command,
+                and the \"rule\" is what you replace each letter of the branch with each iteration. Syntax is:
+            </p>
+            <p>
+                F: go forward by \"length\"
+            </p>
+            <p>
+                C or c: turn by \"angle\", counterclockwise and clockwise respectively
+            </p>
+            <p>
+                For rules: write the character to replace, followed by a comma, followed by what to replace it with. Open
+                brackets are a new branch start and closed brackets are a branch end.
+            </p>
+        </div>
+        <script src="./Script/plantgen.js"></script>
+    </body>
+
+</html>
