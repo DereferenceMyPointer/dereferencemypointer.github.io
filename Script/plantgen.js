@@ -91,6 +91,7 @@ class Tree {
 
 const tree = new Tree();
 const falloff = 0.98
+treeFromInputs();
 
 $('generate').addEventListener("click", treeFromInputs);
 
