@@ -54,7 +54,7 @@ class MainGame{
         controls.update();
         
         const geometry = new THREE.BoxGeometry(5, 5, 5);
-        const material = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
+        const material = new THREE.MeshStandardMaterial( { color: 0x404040 } );
         const cube = new THREE.Mesh( geometry, material );
         cube.position.set(0, 5, 25);
         cube.castShadow = true;
@@ -97,7 +97,7 @@ class MainGame{
             this.three.render(this.scene, this.camera);
             this.Step(t - this.previousRAF);
             this.previousRAF = t;
-          });
+          });   
     }
 
     Step(timeElapsed) {
@@ -119,7 +119,7 @@ class MainGame{
             fbx.traverse(c => {
                 c.castShadow = true;
             });
-
+            
             const anim = new FBXLoader();
             anim.setPath('./Animations/');
             anim.load('Dance.fbx', (anim) => {
