@@ -70,10 +70,24 @@ class AnimatedElement extends ModeledElement{
             console.log('Model not yet loaded');
             return;
         }
-        loader.load(path, (anim) => {
-            const m = new THREE.AnimationMixer(this.fbx);
-            this.animations[name] = m.clipAction(anim.animations[0]);
-        })
+        loader.load(this.path, (fbx) => {
+            fbx.scale.setScalar(0.1);
+            fbx.traverse(c => {
+                c.castShadow = true;
+            });
+            if(this.position === null){
+                fbx.position.set(0, 0, 0);
+            } else {
+                fbx.position.set(this.position.x, this.position.y, this.position.z);
+            }
+            scene.add(fbx);
+            this.fbx = fbx;
+            this.isLoaded = true;
+            loader.load(path, (anim) => {
+                const m = new THREE.AnimationMixer(this.fbx);
+                this.animations[name] = m.clipAction(anim.animations[0]);
+            })
+        });
     }
 
     playAnimation(name){
