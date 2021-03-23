@@ -67,7 +67,8 @@ class AnimatedElement extends ModeledElement{
 
     loadAnimation(loader, path, name){
         if(this.fbx == null){
-            throw console.error("No model for specified object");
+            console.log('Model not yet loaded');
+            return;
         }
         loader.load(path, (anim) => {
             this.animations[name] = new THREE.AnimationMixer(this.fbx).clipAction(anim.animations[0]);
