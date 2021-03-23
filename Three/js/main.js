@@ -2,7 +2,9 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.mod
 
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/GLTFLoader.js';
-import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js'
+import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js';
+import * as ELEMENT from './element.js';
+import { Vector3 } from './three.js';
 
 class MainGame{
     constructor(){
@@ -20,6 +22,7 @@ class MainGame{
         this.three.setPixelRatio(window.devicePixelRatio);
         this.three.setSize(window.innerWidth, window.innerHeight);
         this.three.domElement.id = 'three';
+        this.elements = [];
 
         document.body.appendChild(this.three.domElement);
 
@@ -74,7 +77,11 @@ class MainGame{
         this.previousRAF = null;
         this.mixers = [];
             
-        this.LoadAnimatedModel();
+        //this.LoadAnimatedModel();
+
+        const loader = new FBXLoader();
+        let element1 = new ELEMENT.ModeledElement(this.scene, './Models/Guy.fbx', new Vector3(0, 0, 0));
+        element1.load(loader, this.scene);
 
         this.RAF();
 
@@ -119,7 +126,7 @@ class MainGame{
             fbx.traverse(c => {
                 c.castShadow = true;
             });
-            
+
             const anim = new FBXLoader();
             anim.setPath('./Animations/');
             anim.load('Dance.fbx', (anim) => {
@@ -135,6 +142,8 @@ class MainGame{
 }
 
 let APP = null;
+
+
 
 window.addEventListener('DOMContentLoaded', () => {
   APP = new MainGame();
