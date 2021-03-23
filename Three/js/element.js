@@ -65,7 +65,7 @@ class AnimatedElement extends ModeledElement{
         return new AnimatedElement(scene, name, path, null, position)
     }
 
-    loadAnimation(loader, path, name, scene){
+    loadAnimation(loader, path, name){
         if(this.fbx == null){
             console.log('Model not yet loaded');
             return;
