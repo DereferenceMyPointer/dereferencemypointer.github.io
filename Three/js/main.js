@@ -84,7 +84,7 @@ class MainGame{
         let element1 = ELEMENT.AnimatedElement.AnimatedElement2(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
         element1.load(loader, this.scene);
         this.elements[element1.name] = element1;
-        $('dance').addEventListener(onclick, () => {
+        document.getElementById('dance').addEventListener(onclick, () => {
             console.log('Attempting dance');
             element1.loadAnimation(loader, './Models/Dance.fbx');
         })
