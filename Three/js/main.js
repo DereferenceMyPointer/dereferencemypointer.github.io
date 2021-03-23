@@ -5,6 +5,8 @@ import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/js
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js';
 import * as ELEMENT from './element.js';
 
+function $(x){ return document.getElementById(x); }
+
 class MainGame{
     constructor(){
         this.Initialize();
