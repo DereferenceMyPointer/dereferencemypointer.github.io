@@ -4,7 +4,6 @@ import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/j
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/GLTFLoader.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js';
 //import * as ELEMENT from './element.js';
-import { Vector3 } from './three.js';
 
 class MainGame{
     constructor(){
