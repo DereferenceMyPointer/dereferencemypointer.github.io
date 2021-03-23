@@ -87,6 +87,7 @@ class MainGame{
         document.getElementById('dance').addEventListener('click', () => {
             console.log('Attempting dance');
             element1.loadAnimation(loader, './Models/Dance.fbx');
+            element1.animations['dance'].play();
         })
 
         this.RAF();
