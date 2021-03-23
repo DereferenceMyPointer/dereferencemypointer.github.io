@@ -8,7 +8,6 @@ class WorldElement{
         this.position = position;
         this.name = name;
         this.updates = {};
-        this.updates['update'] = update;
     }
 
     static WorldElement2(scene, name){
