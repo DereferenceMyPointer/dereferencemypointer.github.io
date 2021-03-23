@@ -82,7 +82,9 @@ class MainGame{
         let element1 = ELEMENT.AnimatedElement.AnimatedElement2(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
         element1.load(loader, this.scene);
         this.elements[element1.name] = element1;
-        element1.loadAnimation(loader, './Models/Dance.fbx');
+        $('dance').addEventListener(onclick, () => {
+            element1.loadAnimation(loader, './Models/Dance.fbx');
+        })
 
         this.RAF();
 
