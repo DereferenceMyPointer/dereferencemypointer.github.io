@@ -41,7 +41,6 @@ class ModeledElement extends WorldElement{
             fbx.traverse(c => {
                 c.castShadow = true;
             });
-            fbx = fbx.scene;
             fbx.position.set(this.position);
             scene.add(fbx);
             this.fbx = fbx;
