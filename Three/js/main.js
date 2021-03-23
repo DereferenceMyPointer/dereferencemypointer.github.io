@@ -21,7 +21,7 @@ class MainGame{
         this.three.setPixelRatio(window.devicePixelRatio);
         this.three.setSize(window.innerWidth, window.innerHeight);
         this.three.domElement.id = 'three';
-        this.elements = [];
+        this.elements = {};
 
         document.body.appendChild(this.three.domElement);
 
@@ -79,9 +79,10 @@ class MainGame{
         //this.LoadAnimatedModel();
 
         const loader = new FBXLoader();
-        let element1 = ELEMENT.ModeledElement.ModeledElement3(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
+        let element1 = ELEMENT.AnimatedElement.AnimatedElement2(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
         element1.load(loader, this.scene);
-        this.elements.push(element1);
+        this.elements[element1.name] = element1;
+        element1.loadAnimation(loader, './Models/Dance.fbx');
 
         this.RAF();
 

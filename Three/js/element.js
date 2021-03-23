@@ -54,22 +54,26 @@ class ModeledElement extends WorldElement{
 class AnimatedElement extends ModeledElement{
     constructor(scene, name, path, fbx, position){
         super(scene, name, path, fbx, null, position);
-        this.animations = [];
+        this.animations = {};
     }
 
     static AnimatedElement2(scene, name, path, position){
-        return new AnimatedElement(scene, name, path, fbx, position)
+        return new AnimatedElement(scene, name, path, null, position)
     }
 
     loadAnimation(loader, path, name){
         if(this.fbx == null){
             throw new console.error("No model for specified object");
         }
-        this.animations.add({
-            name: name,
-            animation: new THREE.AnimationMixer(this.fbx)
-        });
+        loader.load(path, (anim) => {
+            this.animations[name] = new THREE.AnimationMixer(this.fbx).clipAction(anim.animations[0]);
+        })
     }
+
+    playAnimation(name){
+        this.animations[name].play();
+    }
+
 }
 
 export {WorldElement};
