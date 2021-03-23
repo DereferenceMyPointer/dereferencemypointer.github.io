@@ -7,7 +7,7 @@ class WorldElement{
         this.scene = scene;
         this.position = position;
         this.updates = [];
-        this.updates.add(this.update);
+        this.updates.push(this.update);
     }
 
     static WorldElement2(scene){
@@ -42,7 +42,7 @@ class ModeledElement extends WorldElement{
                 c.castShadow = true;
             });
             fbx = fbx.scene;
-            fbx.position.set(0, 0, 0);
+            fbx.position.set(this.position);
             scene.add(fbx);
             this.fbx = fbx;
         })
