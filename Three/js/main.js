@@ -113,6 +113,14 @@ class MainGame{
           });   
     }
 
+    Update(){
+        this.elements.forEach((e) => {
+            e.updates.forEach(u => {
+                u();
+            })
+        });
+    }
+
     Step(timeElapsed) {
         const timeElapsedS = timeElapsed * 0.001;
         if (this.mixers) {
