@@ -70,6 +70,10 @@ class AnimatedElement extends ModeledElement{
             console.log('Model not yet loaded');
             return;
         }
+        if(this.animations[name]){
+            thiss.animations[name].play();
+            return;
+        }
         loader.load(this.path, (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
