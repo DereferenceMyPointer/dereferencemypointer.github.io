@@ -77,11 +77,11 @@ class MainGame{
         this.previousRAF = null;
         this.mixers = [];
             
-        //this.LoadAnimatedModel();
+        this.LoadAnimatedModel();
 
-        const loader = new FBXLoader();
-        let element1 = new ELEMENT.ModeledElement(this.scene, './Models/Guy.fbx', new Vector3(0, 0, 0));
-        element1.load(loader, this.scene);
+        //const loader = new FBXLoader();
+        //et element1 = new ELEMENT.ModeledElement(this.scene, './Models/Guy.fbx', new Vector3(0, 0, 0));
+        //element1.load(loader, this.scene);
 
         this.RAF();
 
