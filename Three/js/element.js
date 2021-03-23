@@ -1,7 +1,6 @@
 import * as THREE from './three.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js';
 
-const three = new THREE.WebGLRenderer();
 
 class WorldElement{
     constructor(scene, position){
