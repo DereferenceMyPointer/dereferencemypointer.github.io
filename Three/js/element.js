@@ -36,7 +36,7 @@ class ModeledElement extends WorldElement{
     }
 
     load(loader, scene){
-        loader.load(path, (fbx) => {
+        loader.load(this.path, (fbx) => {
             fbx.scale.setScalar(0.1);
             fbx.traverse(c => {
                 c.castShadow = true;
