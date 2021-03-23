@@ -3,7 +3,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.118/build/three.mod
 import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.118/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/GLTFLoader.js';
 import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm/loaders/FBXLoader.js';
-//import * as ELEMENT from './element.js';
+import * as ELEMENT from './js/element.js';
 
 class MainGame{
     constructor(){
@@ -76,11 +76,11 @@ class MainGame{
         this.previousRAF = null;
         this.mixers = [];
             
-        this.LoadAnimatedModel();
+        //this.LoadAnimatedModel();
 
-        //const loader = new FBXLoader();
-        //et element1 = new ELEMENT.ModeledElement(this.scene, './Models/Guy.fbx', new Vector3(0, 0, 0));
-        //element1.load(loader, this.scene);
+        const loader = new FBXLoader();
+        let element1 = new ELEMENT.ModeledElement(this.scene, './Models/Guy.fbx', new Vector3(0, 0, 0));
+        element1.load(loader, this.scene);
 
         this.RAF();
 

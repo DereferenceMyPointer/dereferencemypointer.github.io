@@ -4,14 +4,15 @@ import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm
 const three = new THREE.WebGLRenderer();
 
 class WorldElement{
-    constructor(scene){
-        this(scene, new THREE.Vector3(0, 0, 0));
-    }
     constructor(scene, position){
         this.scene = scene;
         this.position = position;
         this.updates = [];
         this.updates.add(this.update);
+    }
+
+    static WorldElement2(scene){
+        return new WorldElement(scene, new THREE.Vector3(0, 0, 0));
     }
 
     setPosition(pos){
@@ -30,11 +31,11 @@ class ModeledElement extends WorldElement{
         this.position = position;
         this.isLoaded = false;
     }
-    constructor(scene, path){
-        this(scene, path, null, new THREE.Vector3(0, 0, 0));
+    static ModeledElement2(scene, path){
+        return new ModeledElement(scene, path, null, new THREE.Vector3(0, 0, 0));
     }
-    constructor(scene, path, position){
-        super(scene, path, null, position);
+    static ModeledElement3(scene, path, position){
+        return new ModeledElement(scene, path, null, position);
     }
 
     load(loader, scene){
@@ -55,8 +56,8 @@ class AnimatedElement extends ModeledElement{
         this.animations = [];
     }
 
-    constructor(scene, path, position){
-        this(scene, path, fbx, position)
+    static AnimatedElement2(scene, path, position){
+        return new AnimatedElement(scene, path, fbx, position)
     }
 
     loadAnimation(loader, path, name){
