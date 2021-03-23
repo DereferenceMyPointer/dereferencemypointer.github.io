@@ -19,8 +19,6 @@ class WorldElement{
         this.position = pos;
     }
 
-    update();
-
 }
 
 class ModeledElement extends WorldElement{
