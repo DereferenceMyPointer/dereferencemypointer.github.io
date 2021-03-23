@@ -71,7 +71,7 @@ class AnimatedElement extends ModeledElement{
             return;
         }
         loader.load(path, (anim) => {
-            const m = new THREE.AnimationMixer(fbx);
+            const m = new THREE.AnimationMixer(this.fbx);
             this.animations[name] = m.clipAction(anim.animations[0]);
         })
     }
