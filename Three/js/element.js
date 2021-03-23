@@ -3,15 +3,16 @@ import {FBXLoader} from 'https://cdn.jsdelivr.net/npm/three@0.118.3/examples/jsm
 
 
 class WorldElement{
-    constructor(scene, position){
+    constructor(scene, position, name){
         this.scene = scene;
         this.position = position;
-        this.updates = [];
-        this.updates.push(this.update);
+        this.name = name;
+        this.updates = {};
+        this.updates['update'] = update;
     }
 
-    static WorldElement2(scene){
-        return new WorldElement(scene, new THREE.Vector3(0, 0, 0));
+    static WorldElement2(scene, name){
+        return new WorldElement(scene, new THREE.Vector3(0, 0, 0), name);
     }
 
     setPosition(pos){
@@ -21,18 +22,19 @@ class WorldElement{
 }
 
 class ModeledElement extends WorldElement{
-    constructor(scene, path, fbx, position){
+    constructor(scene, name, path, fbx, position){
         super(scene, position);
         this.path = path;
         this.fbx = fbx;
         this.position = position;
+        this.name = name;
         this.isLoaded = false;
     }
-    static ModeledElement2(scene, path){
-        return new ModeledElement(scene, path, null, new THREE.Vector3(0, 0, 0));
+    static ModeledElement2(scene, name, path){
+        return new ModeledElement(scene, name, path, null, new THREE.Vector3(0, 0, 0));
     }
-    static ModeledElement3(scene, path, position){
-        return new ModeledElement(scene, path, null, position);
+    static ModeledElement3(scene, name, path, position){
+        return new ModeledElement(scene, name, path, null, position);
     }
 
     load(loader, scene){
@@ -41,22 +43,23 @@ class ModeledElement extends WorldElement{
             fbx.traverse(c => {
                 c.castShadow = true;
             });
-            fbx.position.set(0, 0, 0);
+            fbx.position.set(this.position.x, this.position.y, this.position.z);
             scene.add(fbx);
             this.fbx = fbx;
-        })
+            this.isLoaded = true;
+        });
     }
 
 }
 
 class AnimatedElement extends ModeledElement{
-    constructor(scene, path, fbx, position){
-        super(scene, path, fbx, null, position);
+    constructor(scene, name, path, fbx, position){
+        super(scene, name, path, fbx, null, position);
         this.animations = [];
     }
 
-    static AnimatedElement2(scene, path, position){
-        return new AnimatedElement(scene, path, fbx, position)
+    static AnimatedElement2(scene, name, path, position){
+        return new AnimatedElement(scene, name, path, fbx, position)
     }
 
     loadAnimation(loader, path, name){

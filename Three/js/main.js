@@ -79,8 +79,9 @@ class MainGame{
         //this.LoadAnimatedModel();
 
         const loader = new FBXLoader();
-        let element1 = ELEMENT.ModeledElement.ModeledElement3(this.scene, './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
+        let element1 = ELEMENT.ModeledElement.ModeledElement3(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
         element1.load(loader, this.scene);
+        this.elements.push(element1);
 
         this.RAF();
 
