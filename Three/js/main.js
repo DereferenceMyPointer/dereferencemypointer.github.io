@@ -85,6 +85,7 @@ class MainGame{
         element1.load(loader, this.scene);
         this.elements[element1.name] = element1;
         $('dance').addEventListener(onclick, () => {
+            console.log('Attempting dance');
             element1.loadAnimation(loader, './Models/Dance.fbx');
         })
 
