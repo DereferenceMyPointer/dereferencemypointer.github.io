@@ -20,6 +20,6 @@
   "homepage": "https://github.com/DereferenceMyPointer/dereferencemypointer.github.io#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "ws": "^7.4.3"
+    "ws": "^7.4.6"
   }
 }
