@@ -78,19 +78,19 @@ class MainGame{
         this.previousRAF = null;
         this.mixers = [];
             
-        this.LoadAnimatedModel();
+        // this.LoadAnimatedModel();
 
-        // const loader = new FBXLoader();
-        // let element1 = ELEMENT.AnimatedElement.AnimatedElement2(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
-        // element1.load(loader, this.scene);
-        // this.elements[element1.name] = element1;
-        // document.getElementById('dance').addEventListener('click', () => {
-        //     console.log('Attempting dance');
-        //     element1.loadAnimation(loader, './Animations/Dance.fbx', 'dance');
-        //     if(element1.animations['dance'] !== undefined){           
-        //         element1.animations['dance'].play();
-        //     }
-        // })
+        const loader = new FBXLoader();
+        let element1 = ELEMENT.AnimatedElement.AnimatedElement2(this.scene, 'Guy', './Models/Guy.fbx', new THREE.Vector3(0, 0, 0));
+        element1.load(loader, this.scene);
+        this.elements[element1.name] = element1;
+        document.getElementById('dance').addEventListener('click', () => {
+            console.log('Attempting dance');
+            element1.loadAnimation(new FBXLoader(), './Animations/Dance.fbx', 'dance');
+            if(element1.animations['dance'] !== undefined){           
+                element1.animations['dance'].play();
+            }
+        })
 
         this.RAF();
 
