@@ -1,0 +1,75 @@
+/*
+  ***
+  Name: Milo Gerhard
+  Date: 07/13/2021
+  Section AD
+
+  Styles for the apple clicker website. Used by index.html.
+  ***
+*/
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1, section, .apple, article {
+  border: 5px solid black;
+  border-radius: 5px;
+}
+
+h1, article {
+  background-color: bisque;
+  width: 80%;
+  padding: 10px;
+  text-align: center;
+}
+
+.column, #reset {
+  margin: 10px;
+}
+
+.apple, article {
+  margin: 5px;
+}
+
+section {
+  background-color: darkgoldenrod;
+  width: 80%;
+  height: 600px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.column {
+  border-radius: 3px;
+  width: 15%;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+.apple {
+  height: 15%;
+  width: 95%;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.black {
+  background-color: black;
+}
+
+.debug {
+  border: white;
+}

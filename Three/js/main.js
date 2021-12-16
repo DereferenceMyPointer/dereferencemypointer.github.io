@@ -12,7 +12,7 @@ class MainGame{
         this.Initialize();
     }
 
-    Initialize(){
+    async Initialize(){
         this.three = new THREE.WebGLRenderer({
             antialias: true,
         });
@@ -86,7 +86,7 @@ class MainGame{
         this.elements[element1.name] = element1;
         document.getElementById('dance').addEventListener('click', () => {
             console.log('Attempting dance');
-            element1.loadAnimation(new FBXLoader(), './Animations/Dance.fbx', 'dance');
+            await element1.loadAnimation(new FBXLoader(), './Animations/Dance.fbx', 'dance');
             if(element1.animations['dance'] !== undefined){           
                 element1.animations['dance'].play();
             }
