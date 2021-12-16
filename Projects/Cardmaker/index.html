@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Card Creator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>DND Card Maker</h1>
+    </header>
+    <section>
+      <article id="fields">
+        <h2>Name</h2>
+        <input type="text" id="name" name="cardname">
+        <h2>Cost</h2>
+        <input type="text" id="cost" name="cardcost">
+        <h2>Type</h2>
+        <select id="type" name="cardtype">
+          <option value="Avatar">Avatar</option>
+          <option value="Equipment">Equipment</option>
+          <option value="Spell">Spell</option>
+          <option value="Monster">Monster</option>
+        </select>
+        <h2>Text</h2>
+        <textarea id="text-box" name="textbox"></textarea>
+        <div id="stats">
+          <p></p>
+          Attack: <input type="text" id="attack" name="card-attack">
+          Health: <input type="text" id="health" name="card-health">
+        </div>
+      </article>
+      <article id="card">
+        <div>
+          <p id="cardname">Name</p>
+          <p id="cardcost">1</p>
+        </div>
+        <img src="img/background.jpg" id="card-img" alt="An imposing mountainside castle">
+        <p id="cardtype">Type</p>
+        <p id="textbox">Abilities and other descriptive text</p>
+        <p id="card-stats"><span id="card-attack">0</span>/<span id="card-health">0</span></p>
+      </article>
+    </section>
+    <section id="search-area">
+      <h1>Images <input type="button" id="refresh-imgs" value="Generate"></h1>
+      <div id="search-results">
+      </div>
+    </section>
+    <footer>
+      <p>Images generated are from the imgflip API found at <a>https://imgflip.com/api</a></p>
+    </footer>
+  </body>
+</html>
