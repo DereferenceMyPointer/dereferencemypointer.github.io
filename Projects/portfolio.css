@@ -55,10 +55,6 @@ h2 {
     align-items: flex-start;
 }
 
-.portfolio-item > a {
-    width: 30%;
-}
-
 .portfolio-item img {
     margin: 30px;
     border-radius: 20px;
