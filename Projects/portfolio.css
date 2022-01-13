@@ -62,8 +62,8 @@ h2 {
 .portfolio-item img {
     margin: 30px;
     border-radius: 20px;
-    width: 80%;
-    height: auto;
+    width: 200px;
+    height: 200px;
 }
 
 .portfolio-item article {
