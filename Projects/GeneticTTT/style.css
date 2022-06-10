@@ -1,0 +1,10 @@
+#board {
+    border: 5px solid black;
+    border-radius: 5px;
+    height: 300px;
+    margin: 1em;
+}
+
+.hidden {
+    display: none;
+}
