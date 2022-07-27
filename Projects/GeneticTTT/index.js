@@ -1,6 +1,6 @@
 "use strict";
 
-// Ended up being far to annoying to debug due to JS var passing -- too much work
+// Ended up being far too annoying to debug due to JS var passing -- too much work
 // considering I was in the middle of midterms. May revisit, may forget about it
 
 (function() {
