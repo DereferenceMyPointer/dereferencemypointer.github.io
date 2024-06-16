@@ -67,5 +67,6 @@ h2 {
 }
 
 .portfolio-item article {
-    padding: 40px;
+    margin-left: 10px;
+    margin-right: 40px;
 }
