@@ -1,0 +1,36 @@
+article {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    columns: 1;
+    align-items: flex-start;
+}
+
+#console {
+    background-color: #ebebeb;
+    border: 2px solid #444;
+    padding: 1%;
+    height: 400px;
+    width: 98%;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-size: 14px;
+    resize: unset;
+}
+
+#input-field {
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+button{
+    font-size: 14px;
+    size: 15%;
+}
+
+p {
+    margin: 1%;
+    font-style: italic;
+}
