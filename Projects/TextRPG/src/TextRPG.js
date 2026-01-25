@@ -43,7 +43,7 @@ import { Game } from "./Game.js";
         });
     }
 
-    document.addEventListener("DOMContentLoaded", async function() {
+    window.addEventListener("load", async function() {
         const outputElement = $('console');
         const narrator = new Narrator(outputElement, 5, 400);
 
