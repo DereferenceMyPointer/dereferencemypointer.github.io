@@ -13,6 +13,7 @@ export class Player extends Combatant {
         super(name, 30, new Damage(), 20, 1, 5);
         this.primaryWeapon = {"name": "Flaming Claymore", "damage": new Damage({physical: 10, burning: 5})};
         this.armor = {"name": "Plain Clothing", "damage": new Damage()};
+        this.resistances = this.armor.damage;
         this.inventory = {
             "weapons": [
                 this.primaryWeapon,
@@ -42,6 +43,7 @@ export class Player extends Combatant {
             case '2':
                 item = await this.getFromInventory("armor", game);
                 if (item) this.armor = item;
+                this.resistances = this.armor.damage;
                 break;
             case '3':
                 item = await this.getFromInventory("consumables", game);
@@ -81,10 +83,21 @@ export class Player extends Combatant {
                 confirmed = await this.confirmItem(this.inventory[itemType][index], game, "Equip");
             }
             console.log("Item confirmed: ", confirmed, this.inventory[itemType][index]);
-            if (confirmed) return this.inventory[itemType][index];
+            if (confirmed) {
+                let item = this.inventory[itemType][index];
+                this.removeIndex(index, this.inventory[itemType]);
+                return item;
+            }   
             else return null;
         }
         return await this.getFromInventory(itemType, game);
+    }
+
+    removeIndex(index, list) {
+        for (let i = index; i < list.length - 1; i++) {
+            list[i] = list[i + 1];
+        }
+        list.pop();
     }
 
     async confirmItem(item, game, message="", hideStats=false) {
@@ -113,27 +126,31 @@ export class Player extends Combatant {
             await game.narrator.narrate([this.getString()]);
             await game.narrator.narrate([enemy.getString()]);
             await game.narrator.narrate([`${this.name}'s turn!\n1: Attack!\n2: Use item`]);
-            const input = await game.awaitInput();
+            console.log(2);
+            let input = await game.awaitInput();
+            console.log(3)
+            input = parseInt(input)
             switch(input) {
-                case '1':
+                case 1:
                     game.narrator.clear();
                     await game.narrator.narrate([`${this.name} attacks with ${this.primaryWeapon.name}!`]);
                     enemy.damage(this.primaryWeapon.damage);
                     return true;
-                case '2':
+                case 2:
                     let item = await this.getFromInventory("consumables", game);
                     console.log("Selected item: ", item);
                     if (item !== null) {
                         game.narrator.clear();
                         game.narrator.narrateInstant([`Choose a target:\n1: ${this.name}\n2: ${enemy.name}`]);
                         let targetInput = await game.awaitInput();
+                        targetInput = parseInt(targetInput);
                         switch(targetInput) {
-                            case '1':
+                            case 1:
                                 game.narrator.clear();
                                 await this.damage(item.damage);
                                 await game.narrator.narrate([`${this.name} uses ${item.name} on themselves!`]);
                                 return true;
-                            case '2':
+                            case 2:
                                 game.narrator.clear();
                                 await enemy.damage(item.damage);
                                 await game.narrator.narrate([`${this.name} uses ${item.name} on ${enemy.name}!`]);
@@ -142,6 +159,7 @@ export class Player extends Combatant {
                                 break;
                         }
                     }
+                default: break;
             }
             game.narrator.clear();
         }

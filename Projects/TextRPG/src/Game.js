@@ -22,6 +22,11 @@ export class Game {
     async start() {
         await this.narrator.narrate([
             "Welcome to the hidden world of " + this.worldName + "!",
+            "A vast forest sprawls before you.",
+            "Icy mountain peaks tower in the distance.",
+            "A rising sun casts rosy hues across a cold but beautiful landscape.",
+            "These lands were not meant for you, but you are here nonetheless.",
+            "",
             "The way ahead is clear. What action will you take?"
         ]);
     }
@@ -107,6 +112,7 @@ export class Game {
             this.over = true;
             return;
         }
+        if (this.over) return;
         await this.narrator.narrate(["The way ahead is clear. What action will you take?"]);
         this.busy = false;
     }
@@ -120,6 +126,7 @@ export class Game {
             "  west/w - Move west",
             "  arrow keys - Move immediately",
             "  forage/f - Forage for items",
+            "  inventory/inv/i - Inventory",
             "  help - Show this help message"
         ]);
     }
