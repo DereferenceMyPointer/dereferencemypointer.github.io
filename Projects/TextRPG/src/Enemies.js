@@ -62,11 +62,22 @@ const advancedEnemies = [
         ]}
     ] },
     { "name": "Frost Wyvern", "maxHP": 35, "agility": 2, "icetolerance": 15, "attacks": [
-        {"name": "Slash", "damage": new Damage({physical: 12, ice: 4}), "lines": [
-            "The Frost Wyvern slashes at you with its claws! You feel an otherworldly chill!",
+        {"name": "Bite", "damage": new Damage({physical: 18, ice: 3}), "lines": [
+            "The Frost Wyvern snaps at you with its teeth! You feel an otherworldly chill!",
         ]},
-        {"name": "Retreat", "heal": new Damage({heal: 8}), "lines": [
+        {"name": "Retreat", "heal": new Damage({heal: 12}), "lines": [
             "The Frost Wyvern pulls back! It takes the opportunity to heal!",
+        ]}
+    ] },
+    { "name": "Behemoth Troll", "maxHP": 44, "agility": 1, "icetolerance": 8, "attacks": [
+        {"name": "Smash", "damage": new Damage({physical: 22, psychic: 1}), "lines": [
+            "The Behemoth Troll clubs you with an enormous fist! Your head is spinning!",
+        ]},
+        {"name": "Retreat", "heal": new Damage({heal: 12, burnHeal: 20}), "lines": [
+            "The Behemoth Troll backs off! It seems to be recovering rather quickly!",
+        ]},
+        {"name": "Bellow", "buff": new Damage({physical: 4, psychic: 6}), "lines": [
+            "A bellow of unbelievable magnitude escapes the beast! Its eyes burn with rage!",
         ]}
     ] },
 ]
@@ -127,7 +138,7 @@ export class AdvancedEnemy extends Combatant {
             this.buff = new Damage();
         }
         if ("buff" in attack)
-            this.buff = attack.buff;
+            this.buff = attack.buff.add(this.buff);
     }
 
     loot() {

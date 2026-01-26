@@ -10,14 +10,13 @@ import { Damage } from "./Combatant.js";
 
 export class Player extends Combatant {
     constructor(name) {
-        super(name, 30, new Damage(), 20, 1, 5);
-        this.primaryWeapon = {"name": "Flaming Claymore", "damage": new Damage({physical: 10, burning: 5})};
+        super(name, 30, new Damage(), 10, 1, 5);
+        this.primaryWeapon = {"name": "Flaming Claymore", "damage": new Damage({physical: 8, burning: 4})};
         this.armor = {"name": "Plain Clothing", "damage": new Damage()};
         this.resistances = this.armor.damage;
         this.inventory = {
             "weapons": [
-                this.primaryWeapon,
-                {"name": "Icicle", "damage": new Damage({physical: 13, ice: 7})}
+                this.primaryWeapon
             ],
             "armor": [
                 this.armor
@@ -32,6 +31,7 @@ export class Player extends Combatant {
 
     async useInventory(game) {
         game.narrator.clear();
+        game.narrator.narrateInstant([this.getString()]);
         game.narrator.narrateInstant(["Inventory:\n1: Weapons\n2: Armor\n3: Consumables\n4: Key Items\n0: Cancel"]);
         let s = await game.awaitInput();
         let item = null;
@@ -164,4 +164,22 @@ export class Player extends Combatant {
             game.narrator.clear();
         }
     }
+
+    getString() {
+        let sanityString = `\n`;
+        if (this.sanity <= 5) {
+            sanityString += `Your suffering feels endless...`;
+        } else if (this.sanity <= 15) {
+            sanityString += `Your mental health is precariously in the balance.`;
+        } else if (this.sanity <= 30) {
+            sanityString += `You feel reasonably well.`;
+        } else if (this.sanity <= 50) {
+            sanityString += `You have your wits well about you.`;
+        } else {
+            sanityString += `You feel excellent.`;
+        }
+        console.log(super.getString() + sanityString);
+        return super.getString() + sanityString;
+    }
+
 }

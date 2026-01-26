@@ -24,7 +24,7 @@ export class Game {
             "Welcome to the hidden world of " + this.worldName + "!",
             "A vast forest sprawls before you.",
             "Icy mountain peaks tower in the distance.",
-            "A rising sun casts rosy hues across a cold but beautiful landscape.",
+            "A setting sun casts rosy hues across a cold but beautiful landscape.",
             "These lands were not meant for you, but you are here nonetheless.",
             "",
             "The way ahead is clear. What action will you take?"
@@ -84,6 +84,10 @@ export class Game {
             case 'f':
                 await this.eventGenerator.forage(this);
                 break;
+            case 'meditate':
+            case 'm':
+                await this.eventGenerator.meditate(this);
+                break;
             case 'inventory':
             case 'inv':
             case 'i':
@@ -107,10 +111,13 @@ export class Game {
                 await this.narrator.narrate(["That doesn't seem to work."]);
                 break;
         }
-        if (this.player.currentHP <= 0) {
-            await this.narrator.narrate(["You died!"]);
+        if (this.player.sanity <= 0) {
+            await this.narrator.narrate(["You lost your mind."])
             this.over = true;
-            return;
+        }
+        if (this.player.currentHP <= 0) {
+            await this.narrator.narrate(["You died."]);
+            this.over = true;
         }
         if (this.over) return;
         await this.narrator.narrate(["The way ahead is clear. What action will you take?"]);
@@ -126,8 +133,8 @@ export class Game {
             "  west/w - Move west",
             "  arrow keys - Move immediately",
             "  forage/f - Forage for items",
-            "  inventory/inv/i - Inventory",
-            "  help - Show this help message"
+            "  meditate/m - Meditate",
+            "  inventory/inv/i - Inventory"
         ]);
     }
 

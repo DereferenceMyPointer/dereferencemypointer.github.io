@@ -93,7 +93,7 @@ export class Combatant {
         this.iceAffliction += Math.max(0, netDamage.ice);
         this.sanity = Math.max(0, this.sanity - netDamage.psychic);
         this.currentHP = Math.min(this.maxHP, this.currentHP + netDamage.heal);
-        this.sanity = Math.min(this.maxHP, this.currentHP + netDamage.mindHeal);
+        this.sanity = Math.min(this.maxHP, this.sanity + netDamage.mindHeal);
         this.burnAffliction = Math.max(0, this.burnAffliction - netDamage.burnHeal);
         this.iceAffliction = Math.max(0, this.iceAffliction - netDamage.iceHeal);
     }
@@ -101,7 +101,7 @@ export class Combatant {
     loot() { return [null, null]; }
 
     getString() {
-        return `${this.name}:\nHP: ${this.currentHP}/${this.maxHP}\nSanity: ${this.sanity}\nBurn Affliction: ${this.burnAffliction}\nIce Affliction: ${this.iceAffliction}`;
+        return `${this.name}:\nHP: ${this.currentHP}/${this.maxHP}\nBurn Affliction: ${this.burnAffliction}\nIce Affliction: ${this.iceAffliction}`;
     }
 
 }
