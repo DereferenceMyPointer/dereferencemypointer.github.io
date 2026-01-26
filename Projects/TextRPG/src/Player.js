@@ -75,20 +75,19 @@ export class Player extends Combatant {
         if (index === -1) return null;
         if (index >= 0 && index < this.inventory[itemType].length) {
             let confirmed = false;
+            let item = this.inventory[itemType][index];
             if (itemType === "consumables") {
-                confirmed = await this.confirmItem(this.inventory[itemType][index], game, "Use");
+                confirmed = await this.confirmItem(item, game, "Use");
+                if (confirmed)
+                    this.removeIndex(index, this.inventory[itemType]);
             } else if (itemType === "keyItems") {
-                confirmed = await this.confirmItem(this.inventory[itemType][index], game, "Use", hideStats=true);
+                confirmed = await this.confirmItem(item, game, "Use", hideStats=true);
             } else {
-                confirmed = await this.confirmItem(this.inventory[itemType][index], game, "Equip");
+                confirmed = await this.confirmItem(item, game, "Equip");
             }
+            if (!confirmed) item = null;
             console.log("Item confirmed: ", confirmed, this.inventory[itemType][index]);
-            if (confirmed) {
-                let item = this.inventory[itemType][index];
-                this.removeIndex(index, this.inventory[itemType]);
-                return item;
-            }   
-            else return null;
+            return item;
         }
         return await this.getFromInventory(itemType, game);
     }

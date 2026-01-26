@@ -106,7 +106,7 @@ export class EventGenerator {
             if (Math.random() < 0.75) return;
             let fight = new Fight(game.player, enemy, game);
             await game.narrator.narrate([`You were ambushed by the ${enemy.name}!`])
-            return await fight.start(true);
+            return await fight.start(game, true);
         }
         await game.narrator.narrate([`You attack the ${enemy.name}!`])
         let fight = new Fight(game.player, enemy, game);
@@ -133,7 +133,7 @@ export class EventGenerator {
             enemy = new AdvancedEnemy("miniboss");
             await game.narrator.narrate(["A tall figure rises from the shadows...", "A freak of nature towers before you!"]);
         }
-        return await new Fight(game.player, enemy, game).start();
+        return await new Fight(game.player, enemy, game).start(true);
     }
 
     async sanityEvent(game) {
