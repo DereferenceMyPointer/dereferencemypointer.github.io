@@ -106,7 +106,7 @@ export class EventGenerator {
             if (Math.random() < 0.75) return;
             let fight = new Fight(game.player, enemy, game);
             await game.narrator.narrate([`You were ambushed by the ${enemy.name}!`])
-            return await fight.start(game, true);
+            return await fight.start(true);
         }
         await game.narrator.narrate([`You attack the ${enemy.name}!`])
         let fight = new Fight(game.player, enemy, game);
