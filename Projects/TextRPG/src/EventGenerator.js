@@ -7,9 +7,10 @@
  */
 
 import { Damage } from "./Combatant.js";
-import { AdvancedEnemy, BasicEnemy } from "./Enemies.js";
+import { AdvancedEnemy, BasicEnemy, BossEnemies } from "./Enemies.js";
 import { Fight } from "./Fight.js";
-import { Consumables } from "./Items.js";
+import { BossWeapons, Consumables, KeyItems } from "./Items.js";
+import { Caves, Location } from "./Location.js";
 
 const sanityEventLines = [
     ["There is something uncanny afoot here.",
@@ -28,39 +29,53 @@ const sanityDeathLines = [
     "You lost your sanity and were never seen again."
 ]
 
-export class EventGenerator {
+export class Overworld extends Location {
 
     constructor() {
-        this.visitedTiles = new Set();
-        this.scavengedTiles = new Set();
-        this.meditatedTiles = new Set();
-        this.currentTile = [0, 0];
-        this.scavengeSuccessRate = 0.3;
-        this.scavengePunishRate = 0.1;
-    }
-
-    addTileToSet(tile, set) {
-        set.add(`${tile[0]},${tile[1]}`);
-    }
-
-    checkTileInSet(tile, set) {
-        return set.has(`${tile[0]},${tile[1]}`);
+        super()
+        this.name = "Aleria";
+        this.bossFought = false;
     }
 
     async moveEvent(dx, dy, game) {
         // Plays events based on the game's state when entering a location
-        game.narrator.clear();
-        const newX = this.currentTile[0] + dx;
-        const newY = this.currentTile[1] + dy;
-        this.currentTile = [newX, newY];
-        await game.narrator.narrate([`You move to (${newX}, ${newY}).`]);
+        await super.moveEvent(dx, dy, game)
         if (!this.checkTileInSet(this.currentTile, this.visitedTiles)) {
             await game.narrator.narrate(["This is uncharted territory."]);
             this.addTileToSet(this.currentTile, this.visitedTiles);
+            if (Math.random() < .08) {
+            await game.narrator.narrate([
+                "The ground beneath you feels unstable...",
+                "The earth ruptures and cracks! A gaping hole opens to the abyss below!",
+                "You tumble, crashing against the rocks, narrowly avoiding falling debris!",
+                "...",
+                "The crashing comes to a sudden halt. Your leg hurts from the fall.",
+                "You are in some kind of hidden cave system.",
+                "These tunnels appear to extend far into the darkness...",
+                ""
+            ])
+            game.player.damage(new Damage({physical: 5}));
+            this.wormHoles.set(this.getTile(this.currentTile), new Caves(this));
+            game.eventGenerator = this.wormHoles.get(this.getTile(this.currentTile));
+            return;
+        }
         } else {
             await game.narrator.narrate(["This place feels familiar..."]);
         }
-
+        const doorRegion = this.wormHoles.get(this.getTile(this.currentTile));
+        if (doorRegion != null) {
+            await game.narrator.narrate([`You stumble upon an entrance to ${doorRegion.name}.`]);
+            await game.narrator.narrate(["Do you choose to enter?\n1: Proceed\n2: Another time..."]);
+            const choice = await game.awaitInput();
+            if (parseInt(choice) == 1) {
+                doorRegion.currentTile = [0, 0]
+                game.eventGenerator = doorRegion;
+                return;
+            }
+        }
+        if (Math.random() < 0.2) {
+            if(!await this.sanityEvent(game)) return;
+        }
         if (Math.random() < 0.5 / Math.max(Math.abs(this.currentTile[0] + Math.abs(this.currentTile[1])) / 5, 1)) {
             await game.narrator.narrate(["This area is suspiciously devoid of threats."])
             return;
@@ -69,11 +84,8 @@ export class EventGenerator {
         if (Math.abs(this.currentTile[0]) + Math.abs(this.currentTile[1]) > 9)
             repetitions++;
         for (let i = 0; i < repetitions; i++) {
-            if (Math.random() < 0.2) {
-                if(!await this.sanityEvent(game)) return;
-            }
             if (Math.random() < 0.25) {
-                if (Math.abs(this.currentTile[0]) + Math.abs(this.currentTile[1]) > 15) {
+                if (!this.bossFought && Math.abs(this.currentTile[0]) + Math.abs(this.currentTile[1]) > 15) {
                     await this.boss(game);
                     return;
                 }
@@ -94,7 +106,7 @@ export class EventGenerator {
         if (mode === "easy")
             enemy = new BasicEnemy();
         else
-            enemy = new AdvancedEnemy("miniboss");
+            enemy = new AdvancedEnemy();
         await game.narrator.narrate([
             "You see a " + enemy.name + " up ahead.",
             "How do you respond?"
@@ -114,14 +126,30 @@ export class EventGenerator {
     }
 
     async boss(game) {
-        let enemy = new AdvancedEnemy("boss");
+        const enemy = new AdvancedEnemy(BossEnemies, { weapons: BossWeapons });
         await game.narrator.narrate(["The ground beneath you is quaking..."]);
         await game.narrator.narrate(["An enormous being erupts from the earth!"]);
         await game.narrator.narrate(["That is no mere creature of the forest... this being is closer to a god!"]);
         if (await new Fight(game.player, enemy, game).start()) {
-            await game.narrator.narrate(["You win, for now...", "But the soul of Aleria lives on.", "", "Congratulations on beating the alpha!"]);
+            await game.narrator.buffer();
+            game.narrator.clear();
+            await game.narrator.narrate([
+                "The corpse of a mountainous beast lies before you.",
+                "Its silken fur tainted by streaks of blood you drew...",
+                "Hidden beneath one wing is a strange talisman.",
+                "You found the Erythel Effigy!",
+            ]);
+            game.player.giveKeyItem({ name: "Erythel Effigy", actOnGame: async function(game) {
+                game.narrator.clear();
+                await game.narrator.narrate([
+                    "The strange figure hums in response to your caress...",
+                    "Its crumbles to dust in your hands.",
+                    "",
+                    "You hear the flapping of powerful wings from afar...",
+                ]);
+                await new Fight(game.player, new AdvancedEnemy(BossEnemies, { weapons: BossWeapons }), game).start();
+            }})
         }
-        game.over = true;
     }
 
     async ambushEvent(game, mode) {
@@ -130,7 +158,7 @@ export class EventGenerator {
             enemy = new BasicEnemy();
             await game.narrator.narrate([`You were ambushed by a ${enemy.name}!`]);
         } else if (mode === "medium") {
-            enemy = new AdvancedEnemy("miniboss");
+            enemy = new AdvancedEnemy();
             await game.narrator.narrate(["A tall figure rises from the shadows...", "A freak of nature towers before you!"]);
         }
         return await new Fight(game.player, enemy, game).start(true);
@@ -212,7 +240,7 @@ export class EventGenerator {
                 "...",
             ]);
             if (Math.random() < 0.2) {
-                const enemy = new AdvancedEnemy("miniboss");
+                const enemy = new AdvancedEnemy();
                 await game.narrator.narrate(["Your state of preoccupation has made you an easy target!", `You are blindsided by a frenzied ${enemy.name}!`]);
                 await new Fight(game.player, enemy, game).start(true);
             } else {

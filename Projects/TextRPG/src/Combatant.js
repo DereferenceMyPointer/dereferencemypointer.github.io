@@ -13,10 +13,17 @@ const types = {
         heal: "Healing",
         mindHeal: "Sanity Restoration",
         iceHeal: "Ice Restoration",
-        burnHeal: "Burn Restoration"
+        burnHeal: "Burn Restoration",
+        selfDamage: "Life Drain",
+        selfPsychic: "Soul Drain",
+        selfHeal: "Healing to User",
+        selfHealingCurse: "Healing Curse to User",
+        selfPsychicHeal: "Sanity Restoration to User"
     }
 export class Damage {
-    constructor( {physical = 0, burning = 0, ice = 0, psychic = 0, heal = 0, mindHeal = 0, iceHeal = 0, burnHeal = 0} = {} ) {
+    constructor( {physical = 0, burning = 0, ice = 0, psychic = 0,
+            heal = 0, mindHeal = 0, iceHeal = 0, burnHeal = 0,
+            selfDamage = 0, selfPsychic = 0, selfHeal = 0, selfHealingCurse = 0} = {} ) {
         this.physical = physical;
         this.burning = burning;
         this.ice = ice;
@@ -25,6 +32,10 @@ export class Damage {
         this.mindHeal = mindHeal;
         this.iceHeal = iceHeal;
         this.burnHeal = burnHeal;
+        this.selfDamage = selfDamage;
+        this.selfPsychic = selfPsychic;
+        this.selfHeal = selfHeal;
+        this.selfHealingCurse = selfHealingCurse;
         for (const [key, _] of Object.entries(types)) {
             if (typeof(this[key]) !== typeof(5)) this[key] = 0;
         }
@@ -43,7 +54,10 @@ export class Damage {
     writeString() {
         let parts = [];
         for (const [key, value] of Object.entries(types))
-            parts.push(`${this[key]} ${value}`);
+            if (this[key] != 0) { 
+                console.log(key, value);
+                parts.push(`${this[key]} ${value}`);
+            }
         return parts.join("\n");
     }
 }
@@ -59,6 +73,7 @@ export class Combatant {
         this.agility = agility;
         this.iceTolerance = iceTolerance;
         this.iceAffliction = 0;
+        this.healingCurse = 0;
     }
 
     // Base combat turn functionality
@@ -78,9 +93,13 @@ export class Combatant {
             await game.narrator.narrate([`${this.name} is on fire! It takes ${burnDamage} damage from its affliction!`]);
             this.burnAffliction = Math.max(0, this.burnAffliction - 1); 
         }
+        if (this.healingCurse > 0) {
+            await game.narrator.narrate([`${this.name} receives ${this.healingCurse} health from its healing aura!`]);
+            this.currentHP += this.healingCurse;
+        }
     }
 
-    async damage(damage) {
+    async damage(damage, source=null) {
         console.log(`${this.name} is taking damage: `, damage);
         console.log(`${this.name} resistances: `, this.resistances);
         console.log(`${this.name} current HP before damage: `, this.currentHP);
@@ -96,6 +115,12 @@ export class Combatant {
         this.sanity = Math.min(this.maxHP, this.sanity + netDamage.mindHeal);
         this.burnAffliction = Math.max(0, this.burnAffliction - netDamage.burnHeal);
         this.iceAffliction = Math.max(0, this.iceAffliction - netDamage.iceHeal);
+        if (source != null) {
+            source.currentHP -= Math.max(damage.selfDamage, 0);
+            source.currentHP += Math.max(damage.selfHeal, 0);
+            source.healingCurse += Math.max(damage.selfHealingCurse, 0);
+            source.sanity -= Math.max(damage.selfPsychic, 0);
+        }
     }
 
     loot() { return [null, null]; }

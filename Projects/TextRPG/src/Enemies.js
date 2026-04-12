@@ -7,10 +7,10 @@
  */
 
 import { Damage, Combatant } from "./Combatant.js";
-import { Consumables, Weapons, Armor } from "./Items.js";
+import { Consumables, Weapons, Armor, LowTierConsumables, LowTierWeapons, LowTierArmor, HighTierConsumables, HighTierWeapons, HighTierArmor, BossWeapons } from "./Items.js";
 
 const basicEnemies = [
-    { "name": "Stick-shaped Insect", "maxHP": 20 , "weapon": {"name": "Chirp", "damage": new Damage({physical: 5})} },
+    { "name": "Stick-shaped Insect", "maxHP": 20 , "weapon": {"name": "Chirp", "damage": new Damage({physical: 5})}},
     { "name": "Pygmy Elf", "maxHP": 15, "weapon": {"name": "Vicious Scratch", "damage": new Damage({physical: 8})} },
     { "name": "Firefly Swarm", "maxHP": 22, "weapon": {"name": "Burning Aura", "damage": new Damage({burning: 4})} },
     { "name": "Forest Nymph", "maxHP": 18, "weapon": {"name": "Claws", "damage": new Damage({physical: 8})} },
@@ -28,6 +28,7 @@ export class BasicEnemy extends Combatant {
         this.weapon = enemyData.weapon;
         this.maxHP = enemyData.maxHP;
         this.currentHP = this.maxHP;
+        this.lootPool = {consumables: LowTierConsumables, weapons: LowTierWeapons, armor: LowTierArmor};
     }
     async takeCombatTurn(enemy, game) {
         const skipped = await super.takeCombatTurn(self, enemy, game);
@@ -39,13 +40,13 @@ export class BasicEnemy extends Combatant {
 
     loot() {
         if (Math.random() < 0.15) {
-            return ["consumables", Consumables[Math.floor(Math.random() * Consumables.length)]];
+            return ["consumables", this.lootPool.consumables[Math.floor(Math.random() * this.lootPool.consumables.length)]];
         }
         if (Math.random() < 0.15) {
-            return ["weapons", Weapons[Math.floor(Math.random() * Weapons.length)]];
+            return ["weapons", this.lootPool.weapons[Math.floor(Math.random() * this.lootPool.weapons.length)]];
         }
         if (Math.random() < 0.15) {
-            return ["armor", Armor[Math.floor(Math.random() * Armor.length)]];
+            return ["armor", this.lootPool.armor[Math.floor(Math.random() * this.lootPool.armor.length)]];
         }
         return [null, null];
     }
@@ -82,8 +83,10 @@ const advancedEnemies = [
     ] },
 ]
 
-const bossEnemies = [
-    { "name": "Erythel, Dragon Hand of the World Soul", "maxHP": 190, "agility": 2, "icetolerance": 10, "attacks": [
+const highTierLoot = {consumables: HighTierConsumables, weapons: HighTierWeapons, armor: HighTierArmor, keyItems: [null]};
+
+export const BossEnemies = [
+    { "name": "Erythel, Dragon Hand of the World Soul", "maxHP": 190, sanity: 24, "agility": 2, "icetolerance": 10, "attacks": [
         {"name": "Claw", "damage": new Damage({physical: 32}), "lines": [
             "Erythel swipes at you viciously with its claws! The pain is unbearable!",
         ], "weight": 3},
@@ -100,19 +103,17 @@ const bossEnemies = [
 ]
 
 export class AdvancedEnemy extends Combatant {
-    constructor(mode, index=0,resistances = new Damage(), sanity = 15, agility = 2, iceTolerance = 7) {
+    constructor(enemyPool=advancedEnemies, lootPool = highTierLoot, index=0,resistances = new Damage(), sanity = 15, agility = 2, iceTolerance = 7) {
         super("", 0, resistances, sanity, agility, iceTolerance);
-        let data;
-        if (mode === "miniboss")
-            data = advancedEnemies[Math.floor(Math.random() * advancedEnemies.length)]
-        if (mode === "boss")
-            data = bossEnemies[Math.floor(Math.random() * bossEnemies.length)]
+        this.lootPool = lootPool;
+        const data = enemyPool[Math.floor(Math.random() * enemyPool.length)]
         this.name = data.name;
         this.maxHP = data.maxHP;
         this.currentHP = this.maxHP;
         this.attacks = data.attacks;
         this.agility = data.agility || agility;
-        this.iceTolerance = data.icetolerance;
+        this.sanity = data.sanity || sanity;
+        this.iceTolerance = data.icetolerance || iceTolerance;
         this.buff = new Damage();
         let temp = []
         console.log("Adv Enemey constructor.", this.attacks);
@@ -142,14 +143,17 @@ export class AdvancedEnemy extends Combatant {
     }
 
     loot() {
-        if (Math.random() < 0.15) {
-            return ["consumables", Consumables[Math.floor(Math.random() * Consumables.length)]];
+        if (Math.random() < 0.15 && this.lootPool.consumables != null) {
+            return ["consumables", this.lootPool.consumables[Math.floor(Math.random() * this.lootPool.consumables.length)]];
         }
-        if (Math.random() < 0.15) {
-            return ["weapons", Weapons[Math.floor(Math.random() * Weapons.length)]];
+        if (Math.random() < 0.15 && this.lootPool.weapons != null) {
+            return ["weapons", this.lootPool.weapons[Math.floor(Math.random() * this.lootPool.weapons.length)]];
         }
-        if (Math.random() < 0.2) {
-            return ["armor", Armor[Math.floor(Math.random() * Armor.length)]];
+        if (Math.random() < 0.2 && this.lootPool.armor != null) {
+            return ["armor", this.lootPool.armor[Math.floor(Math.random() * this.lootPool.armor.length)]];
+        }
+        if (this.lootPool.keyItems != null) {
+            return ["keyItems", this.lootPool.keyItems[Math.floor(Math.random() * this.lootPool.keyItems.length)]]
         }
         return [null, null];
     }

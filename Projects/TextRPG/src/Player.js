@@ -1,5 +1,6 @@
 import { Combatant } from "./Combatant.js";
 import { Damage } from "./Combatant.js";
+import { KeyItems } from "./Items.js";
 
 /**
  * Player.js
@@ -15,17 +16,17 @@ export class Player extends Combatant {
         this.armor = {"name": "Plain Clothing", "damage": new Damage()};
         this.resistances = this.armor.damage;
         this.inventory = {
-            "weapons": [
-                this.primaryWeapon
+            weapons: [
+                this.primaryWeapon,
             ],
-            "armor": [
-                this.armor
+            armor: [
+                this.armor,
             ],
-            "consumables": [
-                {"name": "Small Health Potion", "damage": new Damage({heal: 15})},
-                {"name": "Small Mind Potion", "damage": new Damage({mindHeal: 10})}
+            consumables: [
+                {name: "Small Health Potion", damage: new Damage({heal: 15})},
+                {name: "Small Mind Potion", damage: new Damage({mindHeal: 10})}
             ],
-            "keyItems": []
+            keyItems: []
         };
     }
 
@@ -51,6 +52,7 @@ export class Player extends Combatant {
                 break;
             case '4':
                 item = await this.getFromInventory("keyItems", game);
+                if (item && item.actOnGame != null) await item.actOnGame(game);
                 break;
             case '0':
                 game.narrator.clear();
@@ -81,9 +83,13 @@ export class Player extends Combatant {
                 if (confirmed)
                     this.removeIndex(index, this.inventory[itemType]);
             } else if (itemType === "keyItems") {
-                confirmed = await this.confirmItem(item, game, "Use", hideStats=true);
+                confirmed = await this.confirmItem(item, game, "Use", true);
             } else {
                 confirmed = await this.confirmItem(item, game, "Equip");
+                // if (Math.random() < 0.5)
+                //     new Audio('./Assets/Sound/Equip.mp3').play()
+                // else new Audio('./Assets/Sound/Equip2.mp3').play()
+                new Audio('./Assets/Sound/Equip3.mp3').play()
             }
             if (!confirmed) item = null;
             console.log("Item confirmed: ", confirmed, this.inventory[itemType][index]);
@@ -97,6 +103,21 @@ export class Player extends Combatant {
             list[i] = list[i + 1];
         }
         list.pop();
+    }
+
+    hasItem(item, list) {
+        for (let other of list) {
+            if (other.name == item.name) return true;
+        }
+        return false;
+    }
+
+    giveKeyItem(item) {
+        if (!this.hasItem(item, this.inventory.keyItems)) {
+            this.inventory.keyItems.push(item);
+            return true;
+        }
+        return false;
     }
 
     async confirmItem(item, game, message="", hideStats=false) {

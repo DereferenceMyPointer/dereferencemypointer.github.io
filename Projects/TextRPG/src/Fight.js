@@ -13,15 +13,15 @@ export class Fight {
             for (let i = 0; i < enemyTurns; i++)
                 await this.enemy.takeCombatTurn(this.player, this.game);
         }
-
-        await this.player.combatTick(this.enemy, this.game);
         if (this.player.currentHP <= 0) {
             await this.game.narrator.narrate([`${this.enemy.name} killed ${this.player.name}!`]);
             return false;
         }
         for (let i = 0; i < playerTurns; i++)
             await this.player.takeCombatTurn(this.enemy, this.game);
-        if (this.enemy.currentHP <= 0) {
+        if (this.enemy.currentHP <= 0 || this.enemy.sanity <= 0) {
+            if (this.enemy.sanity <= 0)
+                await this.game.narrator.narrate([`${this.enemy.name} eyes glaze over. It mysteriously drops dead...`]);
             await this.game.narrator.narrate([`${this.player.name} killed ${this.enemy.name}!`]);
             let [pool, loot] = this.enemy.loot();
             if (loot !== null) {
@@ -34,7 +34,7 @@ export class Fight {
         if (this.enemy.currentHP <= 0) {
             await this.game.narrator.narrate([`${this.player.name} killed ${this.enemy.name}!`]);
             let [pool, loot] = this.enemy.loot();
-            if (loot !== null) {
+            if (loot != null) {
                 await this.game.narrator.narrate([`You found a ${loot.name}!`]);
                 this.player.inventory[pool].push(loot);
             }
@@ -42,6 +42,7 @@ export class Fight {
         }
         for (let i = 0; i < enemyTurns; i++)
             await this.enemy.takeCombatTurn(this.player, this.game);
+        await this.player.combatTick(this.enemy, this.game);
         return await this.start();
     }
 

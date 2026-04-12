@@ -1,4 +1,5 @@
-import { EventGenerator } from "./EventGenerator.js";
+import { Overworld } from "./EventGenerator.js";
+import { BossWeapons } from "./Items.js";
 import { Player } from "./Player.js";
 
 /**
@@ -15,7 +16,7 @@ export class Game {
         this.over = false;
         this._inputResolver = null;
 
-        this.eventGenerator = new EventGenerator();
+        this.eventGenerator = new Overworld();
         this.player = new Player(playerName);
     }
 
@@ -106,6 +107,8 @@ export class Game {
                 this.player.maxHP = 999;
                 this.player.currentHP = 999;
                 this.player.agility = 4;
+                this.player.sanity = 499;
+                this.player.inventory.weapons.push(BossWeapons.Erythel);
                 break;
             default:
                 await this.narrator.narrate(["That doesn't seem to work."]);
