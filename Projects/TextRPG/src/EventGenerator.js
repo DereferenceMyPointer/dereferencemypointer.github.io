@@ -7,7 +7,7 @@
  */
 
 import { Damage } from "./Combatant.js";
-import { AdvancedEnemy, BasicEnemy, BossEnemies } from "./Enemies.js";
+import { AdvancedEnemy, BasicEnemy, BossEnemies, bossLoot } from "./Enemies.js";
 import { Fight } from "./Fight.js";
 import { BossWeapons, Consumables, KeyItems } from "./Items.js";
 import { Caves, Location } from "./Location.js";
@@ -126,7 +126,9 @@ export class Overworld extends Location {
     }
 
     async boss(game) {
-        const enemy = new AdvancedEnemy(BossEnemies, { weapons: BossWeapons });
+        const enemy = new AdvancedEnemy(BossEnemies, bossLoot,
+            0, new Damage(), 15, 2, 7, 0.5
+        );
         await game.narrator.narrate(["The ground beneath you is quaking..."]);
         await game.narrator.narrate(["An enormous being erupts from the earth!"]);
         await game.narrator.narrate(["That is no mere creature of the forest... this being is closer to a god!"]);
@@ -147,7 +149,7 @@ export class Overworld extends Location {
                     "",
                     "You hear the flapping of powerful wings from afar...",
                 ]);
-                await new Fight(game.player, new AdvancedEnemy(BossEnemies, { weapons: BossWeapons }), game).start();
+                await new Fight(game.player, new AdvancedEnemy(BossEnemies, bossLoot, 0, new Damage(), 15, 2, 7, 0.5), game, ).start();
             }})
         }
     }

@@ -83,7 +83,10 @@ const advancedEnemies = [
     ] },
 ]
 
-const highTierLoot = {consumables: HighTierConsumables, weapons: HighTierWeapons, armor: HighTierArmor, keyItems: [null]};
+const highTierLoot = {consumables: HighTierConsumables, weapons: HighTierWeapons, armor: HighTierArmor, keyItems: [null]
+};
+
+export const bossLoot = { consumables: [null], weapons: BossWeapons, armor: [null], keyItems: [null] };
 
 export const BossEnemies = [
     { "name": "Erythel, Dragon Hand of the World Soul", "maxHP": 190, sanity: 24, "agility": 2, "icetolerance": 10, "attacks": [
@@ -103,7 +106,7 @@ export const BossEnemies = [
 ]
 
 export class AdvancedEnemy extends Combatant {
-    constructor(enemyPool=advancedEnemies, lootPool = highTierLoot, index=0,resistances = new Damage(), sanity = 15, agility = 2, iceTolerance = 7) {
+    constructor(enemyPool=advancedEnemies, lootPool = highTierLoot, index=0,resistances = new Damage(), sanity = 15, agility = 2, iceTolerance = 7, lootChance = 0.15) {
         super("", 0, resistances, sanity, agility, iceTolerance);
         this.lootPool = lootPool;
         const data = enemyPool[Math.floor(Math.random() * enemyPool.length)]
@@ -115,6 +118,7 @@ export class AdvancedEnemy extends Combatant {
         this.sanity = data.sanity || sanity;
         this.iceTolerance = data.icetolerance || iceTolerance;
         this.buff = new Damage();
+        this.lootChance = lootChance;
         let temp = []
         console.log("Adv Enemey constructor.", this.attacks);
         for (const attack of data.attacks) {
@@ -143,13 +147,13 @@ export class AdvancedEnemy extends Combatant {
     }
 
     loot() {
-        if (Math.random() < 0.15 && this.lootPool.consumables != null) {
+        if (Math.random() < this.lootChance && this.lootPool.consumables != null) {
             return ["consumables", this.lootPool.consumables[Math.floor(Math.random() * this.lootPool.consumables.length)]];
         }
-        if (Math.random() < 0.15 && this.lootPool.weapons != null) {
+        if (Math.random() < this.lootChance && this.lootPool.weapons != null) {
             return ["weapons", this.lootPool.weapons[Math.floor(Math.random() * this.lootPool.weapons.length)]];
         }
-        if (Math.random() < 0.2 && this.lootPool.armor != null) {
+        if (Math.random() < this.lootChance * 2 && this.lootPool.armor != null) {
             return ["armor", this.lootPool.armor[Math.floor(Math.random() * this.lootPool.armor.length)]];
         }
         if (this.lootPool.keyItems != null) {

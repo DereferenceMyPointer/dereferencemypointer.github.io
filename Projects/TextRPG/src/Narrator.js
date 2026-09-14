@@ -9,7 +9,7 @@ export class Narrator {
     // element: DOM element to output text to
     // typespeed: delay between characters (ms)
     // tempo: delay between lines (ms)
-    constructor(element, typespeed = 50, tempo=400) {
+    constructor(element, typespeed = 10, tempo=800) {
         this.element = element;
         this.typespeed = typespeed;
         this.currentTypespeed = typespeed;

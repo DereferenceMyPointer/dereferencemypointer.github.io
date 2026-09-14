@@ -45,7 +45,7 @@ import { Game } from "./Game.js";
 
     window.addEventListener("load", async function() {
         const outputElement = $('console');
-        const narrator = new Narrator(outputElement, 5, 400);
+        const narrator = new Narrator(outputElement, 10, 600);
 
         await main(narrator);
 

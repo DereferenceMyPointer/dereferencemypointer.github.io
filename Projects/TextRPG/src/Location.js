@@ -99,7 +99,7 @@ export class Caves extends Location {
 
 export class AstralPlane extends Location {
     constructor(origin){
-        super()
+        super();
         this.origin = origin;
         this.currentTile[0] = Math.floor(origin.currentTile[0] / 8);
         this.currentTile[1] = Math.floor(origin.currentTile[1] / 8);

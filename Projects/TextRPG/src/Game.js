@@ -18,6 +18,8 @@ export class Game {
 
         this.eventGenerator = new Overworld();
         this.player = new Player(playerName);
+
+        this.canFight = false;
     }
 
     async start() {
@@ -100,16 +102,19 @@ export class Game {
             case 'help':
                 await this.help();
                 break;
-            case 'fight':
-                await this.eventGenerator.fight(this);
-                break;
             case 'enter_debug':
                 this.player.maxHP = 999;
                 this.player.currentHP = 999;
                 this.player.agility = 4;
                 this.player.sanity = 499;
                 this.player.inventory.weapons.push(BossWeapons.Erythel);
+                this.canFight = true;
                 break;
+            case 'fight':
+                if (this.canFight) {
+                    await this.eventGenerator.fight(this);
+                    break;
+                }
             default:
                 await this.narrator.narrate(["That doesn't seem to work."]);
                 break;

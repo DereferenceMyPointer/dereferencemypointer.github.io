@@ -21,7 +21,7 @@ export class Fight {
             await this.player.takeCombatTurn(this.enemy, this.game);
         if (this.enemy.currentHP <= 0 || this.enemy.sanity <= 0) {
             if (this.enemy.sanity <= 0)
-                await this.game.narrator.narrate([`${this.enemy.name} eyes glaze over. It mysteriously drops dead...`]);
+                await this.game.narrator.narrate([`${this.enemy.name}'s eyes glaze over. It mysteriously drops dead...`]);
             await this.game.narrator.narrate([`${this.player.name} killed ${this.enemy.name}!`]);
             let [pool, loot] = this.enemy.loot();
             if (loot !== null) {

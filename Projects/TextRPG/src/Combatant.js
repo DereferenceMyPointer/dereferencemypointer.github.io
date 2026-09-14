@@ -106,7 +106,8 @@ export class Combatant {
         const netDamage = damage.add(this.resistances);
         console.log(`${this.name} damage after resistances: `, netDamage);
         console.log(`${this.name} physical damage taken: `, netDamage.physical);
-        this.currentHP = Math.max(0, this.currentHP - netDamage.physical);
+
+        this.currentHP = Math.max(0, this.currentHP - Math.max(0, netDamage.physical));
         console.log(`${this.name} current HP after physical damage: `, this.currentHP);
         this.burnAffliction += Math.max(0, netDamage.burning);
         this.iceAffliction += Math.max(0, netDamage.ice);
